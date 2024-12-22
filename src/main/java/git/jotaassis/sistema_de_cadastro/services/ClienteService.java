@@ -1,6 +1,7 @@
 package git.jotaassis.sistema_de_cadastro.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,5 +80,26 @@ public class ClienteService {
         }
         return new ResponseEntity<>(clientes, HttpStatus.OK);
 
+    }
+
+    // Remover cliente
+    public ResponseEntity<Response> deletar(Long id) {
+
+        // Validação do ID
+        if (id == null || id <= 0) {
+            rm.setMensagem("ID invalido!");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Cliente> clienteTemp = clienteRepository.findById(id);
+
+        if (clienteTemp.isEmpty()) {
+            rm.setMensagem("Cliente não encontrado! Este ID foi removido ou não está cadastrado");
+            return new ResponseEntity<Response>(rm, HttpStatus.NOT_FOUND);
+        }
+
+        clienteRepository.deleteById(id);
+        rm.setMensagem("Cliente removido");
+        return new ResponseEntity<Response>(rm, HttpStatus.OK);
     }
 }
