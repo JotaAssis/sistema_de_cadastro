@@ -106,7 +106,45 @@ public class ClienteService {
     // Alterar dados do cliente
     public ResponseEntity<Response> atualizar(Long id, ClienteDTO clienteDTO) {
 
+        //Validação do ID
+        if (id <= 0 || id == null) {
+            rm.setMensagem("ID invalido!");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Cliente> clienteExistente = clienteRepository.findById(id);
+
+        if (clienteExistente.isEmpty()) {
+            rm.setMensagem("Cliente não encontrado com ID: " + id);
+            return new ResponseEntity<Response>(rm, HttpStatus.NOT_FOUND);
+        }
+
+        //Verificação do nome
+        if (clienteDTO.getNome().equals("") || clienteDTO.getNome().trim().isEmpty()
+                || clienteDTO.getNome().matches("\\d+")) {
+            rm.setMensagem("O nome não pode ser vazio ou nulo e deve conter apenas letras e espaços");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+        // Validação do CEP
+        if (clienteDTO.getCep().equals("")) {
+            rm.setMensagem("O CEP não pode ser vazio ou nulo");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        } else if (clienteDTO.getCep().length() != 8) {
+            rm.setMensagem("CEP inválido! o cep deve ter 8 digitos");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+        // Verificação do email
+        if (clienteDTO.getEmail().equals("") || clienteDTO.getEmail().matches("\\d+")) {
+            rm.setMensagem("O email não pode ser vazio ou nulo");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        } else if (!clienteDTO.getEmail().equals(clienteExistente.get().getEmail())
+                && clienteRepository.existsByEmail(clienteDTO.getEmail())) {
+            rm.setMensagem("Email já cadastrado");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
 
         Cliente cliente = clienteExistente.get();
 
@@ -123,7 +161,7 @@ public class ClienteService {
         cliente.setEstado(endereco.get("uf"));
 
         clienteRepository.save(cliente);
-        
+
         rm.setMensagem("Cliente Atualizado!");
         return new ResponseEntity<Response>(rm, HttpStatus.OK);
     }
