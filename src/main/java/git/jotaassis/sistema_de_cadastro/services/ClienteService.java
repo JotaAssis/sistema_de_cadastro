@@ -1,5 +1,7 @@
 package git.jotaassis.sistema_de_cadastro.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,7 @@ import git.jotaassis.sistema_de_cadastro.util.Response;
 
 @Service
 public class ClienteService {
-    
+
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -22,16 +24,16 @@ public class ClienteService {
     @Autowired
     private EnderecoApiViaCep enderecoViaCep;
 
-    public ResponseEntity<?> cadastrar(ClienteDTO clienteDTO){
+    public ResponseEntity<?> cadastrar(ClienteDTO clienteDTO) {
 
-        //Validação do nome
+        // Validação do nome
         if (clienteDTO.getNome().equals("") || clienteDTO.getNome().trim().isEmpty()
                 || clienteDTO.getNome().matches("\\d+")) {
             rm.setMensagem("O nome não pode ser vazio ou nulo e deve conter apenas letras e espaços");
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
         }
 
-        //Validando email
+        // Validando email
         if (clienteDTO.getEmail().equals("") || clienteDTO.getEmail().matches("\\d+")) {
             rm.setMensagem("O email não pode ser vazio ou nulo");
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
@@ -40,7 +42,7 @@ public class ClienteService {
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
         }
 
-        //Validação do CEP
+        // Validação do CEP
         if (clienteDTO.getCep().equals("")) {
             rm.setMensagem("O CEP não pode ser vazio ou nulo");
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
@@ -64,5 +66,18 @@ public class ClienteService {
 
         clienteRepository.save(cliente);
         return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
+    }
+
+    // Listar clientes
+    public ResponseEntity<?> listar() {
+
+        List<Cliente> clientes = clienteRepository.findAll();
+
+        if (clientes.isEmpty()) {
+            rm.setMensagem("Não existe clientes cadastrados no sistema!");
+            return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(clientes, HttpStatus.OK);
+
     }
 }
