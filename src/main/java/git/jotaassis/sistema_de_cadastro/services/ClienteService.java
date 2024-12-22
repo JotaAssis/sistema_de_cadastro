@@ -102,4 +102,29 @@ public class ClienteService {
         rm.setMensagem("Cliente removido");
         return new ResponseEntity<Response>(rm, HttpStatus.OK);
     }
+
+    // Alterar dados do cliente
+    public ResponseEntity<Response> atualizar(Long id, ClienteDTO clienteDTO) {
+
+        Optional<Cliente> clienteExistente = clienteRepository.findById(id);
+
+        Cliente cliente = clienteExistente.get();
+
+        cliente.setNome(clienteDTO.getNome());
+        cliente.setEmail(clienteDTO.getEmail());
+        cliente.setTelefone(clienteDTO.getTelefone());
+        cliente.setCep(clienteDTO.getCep());
+
+        var endereco = enderecoViaCep.buscarCep(clienteDTO.getCep());
+
+        cliente.setEndereco(endereco.get("logradouro"));
+        cliente.setBairro(endereco.get("bairro"));
+        cliente.setCidade(endereco.get("localidade"));
+        cliente.setEstado(endereco.get("uf"));
+
+        clienteRepository.save(cliente);
+        
+        rm.setMensagem("Cliente Atualizado!");
+        return new ResponseEntity<Response>(rm, HttpStatus.OK);
+    }
 }
