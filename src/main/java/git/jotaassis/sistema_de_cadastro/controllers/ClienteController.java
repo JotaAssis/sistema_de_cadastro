@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import git.jotaassis.sistema_de_cadastro.dtos.ClienteDTO;
-import git.jotaassis.sistema_de_cadastro.models.Cliente;
 import git.jotaassis.sistema_de_cadastro.services.ClienteService;
 
 @RestController
@@ -19,7 +18,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Cliente> cadastrar(@RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<?> cadastrar(@RequestBody ClienteDTO clienteDTO){
         return clienteService.cadastrar(clienteDTO);
     }
 }

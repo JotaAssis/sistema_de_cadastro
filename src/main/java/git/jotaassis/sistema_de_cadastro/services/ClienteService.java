@@ -22,7 +22,16 @@ public class ClienteService {
     @Autowired
     private EnderecoApiViaCep enderecoViaCep;
 
-    public ResponseEntity<Cliente> cadastrar(ClienteDTO clienteDTO){
+    public ResponseEntity<?> cadastrar(ClienteDTO clienteDTO){
+
+        //Validação do nome
+        if (clienteDTO.getNome().equals("") || clienteDTO.getNome().trim().isEmpty()
+                || clienteDTO.getNome().matches("\\d+")) {
+            rm.setMensagem("O nome não pode ser vazio ou nulo e deve conter apenas letras e espaços");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+
         var endereco = enderecoViaCep.buscarCep(clienteDTO.getCep());
 
         Cliente cliente = new Cliente();

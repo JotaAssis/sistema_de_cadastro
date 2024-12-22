@@ -7,4 +7,5 @@ import git.jotaassis.sistema_de_cadastro.models.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
+    boolean existsByEmail(String email);
 }
