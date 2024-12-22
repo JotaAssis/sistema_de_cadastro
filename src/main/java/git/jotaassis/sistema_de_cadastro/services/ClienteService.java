@@ -31,6 +31,23 @@ public class ClienteService {
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
         }
 
+        //Validando email
+        if (clienteDTO.getEmail().equals("") || clienteDTO.getEmail().matches("\\d+")) {
+            rm.setMensagem("O email não pode ser vazio ou nulo");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        } else if (clienteRepository.existsByEmail(clienteDTO.getEmail())) {
+            rm.setMensagem("Email já cadastrado");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+        //Validação do CEP
+        if (clienteDTO.getCep().equals("")) {
+            rm.setMensagem("O CEP não pode ser vazio ou nulo");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        } else if (clienteDTO.getCep().length() != 8) {
+            rm.setMensagem("CEP inválido! o cep deve ter 8 digitos");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
 
         var endereco = enderecoViaCep.buscarCep(clienteDTO.getCep());
 
