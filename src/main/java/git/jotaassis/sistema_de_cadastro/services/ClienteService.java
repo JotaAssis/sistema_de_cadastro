@@ -44,12 +44,9 @@ public class ClienteService {
         }
 
         // Validação do CEP
-        if (clienteDTO.getCep().equals("")) {
-            rm.setMensagem("O CEP não pode ser vazio ou nulo");
-            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
-        } else if (clienteDTO.getCep().length() != 8) {
-            rm.setMensagem("CEP inválido! o cep deve ter 8 digitos");
-            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        if (enderecoViaCep.validarCep(clienteDTO.getCep()) != null) {
+            rm.setMensagem(enderecoViaCep.validarCep(clienteDTO.getCep()));
+            return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
         }
 
         var endereco = enderecoViaCep.buscarCep(clienteDTO.getCep());
@@ -106,7 +103,7 @@ public class ClienteService {
     // Alterar dados do cliente
     public ResponseEntity<Response> atualizar(Long id, ClienteDTO clienteDTO) {
 
-        //Validação do ID
+        // Validação do ID
         if (id <= 0 || id == null) {
             rm.setMensagem("ID invalido!");
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
@@ -119,7 +116,7 @@ public class ClienteService {
             return new ResponseEntity<Response>(rm, HttpStatus.NOT_FOUND);
         }
 
-        //Verificação do nome
+        // Verificação do nome
         if (clienteDTO.getNome().equals("") || clienteDTO.getNome().trim().isEmpty()
                 || clienteDTO.getNome().matches("\\d+")) {
             rm.setMensagem("O nome não pode ser vazio ou nulo e deve conter apenas letras e espaços");
@@ -127,12 +124,9 @@ public class ClienteService {
         }
 
         // Validação do CEP
-        if (clienteDTO.getCep().equals("")) {
-            rm.setMensagem("O CEP não pode ser vazio ou nulo");
-            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
-        } else if (clienteDTO.getCep().length() != 8) {
-            rm.setMensagem("CEP inválido! o cep deve ter 8 digitos");
-            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        if (enderecoViaCep.validarCep(clienteDTO.getCep()) != null) {
+            rm.setMensagem(enderecoViaCep.validarCep(clienteDTO.getCep()));
+            return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
         }
 
         // Verificação do email
@@ -144,7 +138,6 @@ public class ClienteService {
             rm.setMensagem("Email já cadastrado");
             return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
         }
-
 
         Cliente cliente = clienteExistente.get();
 

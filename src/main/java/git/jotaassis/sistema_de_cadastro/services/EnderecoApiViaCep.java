@@ -24,4 +24,11 @@ public class EnderecoApiViaCep {
         return response.getBody();
     }
 
+    public String validarCep(String cep) {
+        if (cep == null || cep.length() != 8) {
+            return "CEP inválido. O CEP não pode ser nulo e deve ter 8 caracteres.";
+        }
+        return null;
+    }
+
 }
