@@ -22,21 +22,31 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    // Rota para cadastrar
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrar(@RequestBody ClienteDTO clienteDTO){
         return clienteService.cadastrar(clienteDTO);
     }
     
+    // Rota para listar clientes
     @GetMapping("/listar")
     public ResponseEntity<?> listar(){
         return clienteService.listar();
     }
 
+    // Rota para buscar cliente por ID
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id){
+        return clienteService.buscarPorID(id);
+    }
+
+    // Rota para deletar
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Response> deletar(@PathVariable Long id){
         return clienteService.deletar(id);
     }
 
+    // Rota para atualizar cliente
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Response> atualizar(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO){
         return clienteService.atualizar(id, clienteDTO);

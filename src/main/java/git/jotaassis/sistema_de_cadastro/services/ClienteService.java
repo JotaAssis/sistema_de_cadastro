@@ -79,6 +79,25 @@ public class ClienteService {
 
     }
 
+    // Buscar cliente por ID
+    public ResponseEntity<?> buscarPorID(Long id) {
+
+        if (id == null || id <= 0) {
+            rm.setMensagem("ID invalido!");
+            return new ResponseEntity<Response>(rm, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if (cliente.isEmpty()) {
+            rm.setMensagem("Cliente não encontrado! Este ID foi removido ou não está cadastrado");
+            return new ResponseEntity<Response>(rm, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Cliente>(cliente.get(), HttpStatus.OK);
+
+    }
+
     // Remover cliente
     public ResponseEntity<Response> deletar(Long id) {
 
