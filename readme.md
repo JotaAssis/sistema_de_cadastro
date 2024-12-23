@@ -17,17 +17,17 @@ Ferramentas e frameworks usadas na criação desse projeto
 ###  Pré-requisitos
 
 * [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-* [Postman](https://www.postman.com/) Ou outra ferramenta para executar as requisições HTTP da API
+* [Postman](https://www.postman.com/) ou outra ferramenta para executar as requisições HTTP da API
 * [Maven](https://maven.apache.org/) - 4.0.0
 
 ###  Execução
-*  Clone o repositorio:
+*  Clone o repositório:
 
 ```
 git clone https://github.com/JotaAssis/sistema_de_cadastro.git
 ```
 
-* Abra o arquivo na sua IDE e execute, ou abra o prompt e entra na pasta do projeto
+* Abra o arquivo na sua IDE e execute, ou abra o prompt e acesse o diretório do projeto
 
 ```
 cd sistema-de-cadastro
