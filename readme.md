@@ -17,7 +17,7 @@ Ferramentas e frameworks usadas na criação desse projeto
 ###  Pré-requisitos
 
 * [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-* [Postman]() Ou outra ferramenta para executar as requisições HTTP da API
+* [Postman](https://www.postman.com/) Ou outra ferramenta para executar as requisições HTTP da API
 * [Maven](https://maven.apache.org/) - 4.0.0
 
 ###  Execução
